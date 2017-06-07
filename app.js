@@ -19,8 +19,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$log', '$timeout', 'uiGridConsta
             { field: 'company', width:100},
             {field: 'email', width:150},
             {field: 'phone', width:100},
-            { field: 'age', width:50},
-
+            { field: 'age', width:50}
         ]
     };
 
@@ -38,8 +37,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$log', '$timeout', 'uiGridConsta
             { field: 'company', width:100},
             {field: 'email', width:150},
             {field: 'phone', width:100},
-            { field: 'age', width:50},
-
+            { field: 'age', width:50}
         ]
     };
 
@@ -49,8 +47,8 @@ app.controller('MainCtrl', ['$scope', '$http', '$log', '$timeout', 'uiGridConsta
     $http.get('500_complex.json')
         .success(function(data1) {
 
-            for(var i=0; i<3; i++){
-                $scope.gridOptions1.data.splice(i,0, data1[i+3]);
+            for(var i=0; i<10; i++){
+                $scope.gridOptions1.data.splice(i,0, data1[i+10]);
             }
 
 
@@ -67,7 +65,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$log', '$timeout', 'uiGridConsta
 
     $http.get('500_complex.json')
         .success(function(data2) {
-            for(var i=0; i<3; i++){
+            for(var i=0; i<10; i++){
                 $scope.gridOptions2.data.splice(i,0, data2[i]);
             }
             $timeout(function() {
@@ -92,8 +90,6 @@ app.controller('MainCtrl', ['$scope', '$http', '$log', '$timeout', 'uiGridConsta
 
         $scope.gridApi2.selection.clearSelectedRows();
 
-
-
     }
 
 
@@ -109,6 +105,48 @@ app.controller('MainCtrl', ['$scope', '$http', '$log', '$timeout', 'uiGridConsta
 
 
     }
+
+    $scope.up1 = function(){
+
+        angular.forEach($scope.gridApi.selection.getSelectedRows(), function (data, index) {
+            x = $scope.gridOptions1.data.lastIndexOf(data);
+            $scope.gridOptions1.data.splice($scope.gridOptions1.data.lastIndexOf(data), 1);
+            $scope.gridOptions1.data.splice(x-1, 0, data);
+        });
+
+    }
+
+    $scope.down1 = function(){
+
+        rowList = $scope.gridApi.selection.getSelectedRows();
+        for(var i=rowList.length-1; i>=0;i--){
+            x = $scope.gridOptions1.data.lastIndexOf(rowList[i]);
+            $scope.gridOptions1.data.splice($scope.gridOptions1.data.lastIndexOf(rowList[i]), 1);
+            $scope.gridOptions1.data.splice(x+1, 0, rowList[i]);
+        }
+
+
+    }
+
+
+    $scope.up2 = function(){
+        angular.forEach($scope.gridApi2.selection.getSelectedRows(), function (data, index) {
+            x = $scope.gridOptions2.data.lastIndexOf(data);
+            $scope.gridOptions2.data.splice($scope.gridOptions2.data.lastIndexOf(data), 1);
+            $scope.gridOptions2.data.splice(x-1, 0, data);
+        });
+    }
+
+    $scope.down2 = function(){
+        rowList = $scope.gridApi2.selection.getSelectedRows();
+        for(var i=rowList.length-1; i>=0;i--){
+            x = $scope.gridOptions2.data.lastIndexOf(rowList[i]);
+            $scope.gridOptions2.data.splice($scope.gridOptions2.data.lastIndexOf(rowList[i]), 1);
+            $scope.gridOptions2.data.splice(x+1, 0, rowList[i]);
+        }
+    }
+
+
 
     $scope.gridOptions1.onRegisterApi = function(gridApi){
         $scope.gridApi = gridApi;
